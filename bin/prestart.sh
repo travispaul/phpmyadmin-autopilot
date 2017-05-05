@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 echo "******running preStart script*********"
 
-until [[ `curl -s ${CONSUL}:8500/v1/health/state/passing | grep mysql-primary`  ]]
+while $(curl -s ${CONSUL}:8500/v1/health/state/passing | grep mysql-primary)
 do
   echo "mysql-primary not healthly...."
   sleep 5

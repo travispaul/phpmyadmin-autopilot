@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 consul-template \
-    -log-level debug \
     -once \
     -dedup \
     -consul ${CONSUL}:8500 \

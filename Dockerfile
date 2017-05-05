@@ -9,7 +9,7 @@ COPY etc /etc
 ENV CONTAINERPILOT_VER 2.3.0
 ENV CONTAINERPILOT file:///etc/containerpilot.json
 
-RUN apk add --no-cache curl bash
+RUN apk add --no-cache curl 
 
 RUN export CONTAINERPILOT_CHECKSUM=ec9dbedaca9f4a7a50762f50768cbc42879c7208 \
     && curl --retry 7 --fail -Lso /tmp/containerpilot.tar.gz \
