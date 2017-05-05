@@ -1,0 +1,9 @@
+<?php
+// The $cfg['Servers'] array starts at index 1 ($cfg[‘Servers’][1])
+// https://docs.phpmyadmin.net/en/latest/config.html#cfg_Servers
+{{if service "mysql-primary"}}
+{{with index (service "mysql-primary") 0}}
+$cfg['Servers'][1]['host'] = '{{.Address}}';
+$cfg['Servers'][1]['port'] = '{{.Port}}';
+{{end}}
+{{end}}

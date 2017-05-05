@@ -1,0 +1,31 @@
+{
+  "consul": "{{ if .CONSUL_AGENT }}localhost{{ else }}{{ .CONSUL }}{{ end }}:8500",
+  "preStart": "/usr/local/bin/prestart.sh",
+  "services": [
+    {
+      "name": "phpmyadmin",
+      "port": 80,
+      "health": "/usr/local/bin/health.sh",
+      "poll": 15,
+      "ttl": 25
+    }
+  ],
+  "backends": [
+    {
+      "name": "mysql",
+      "poll": 10,
+      "onChange": "/usr/local/bin/onchange-db.sh"
+    }
+  ],
+  "coprocesses": [{{ if .CONSUL_AGENT }}
+    {
+      "command": ["/usr/local/bin/consul", "agent",
+                  "-data-dir=/data",
+                  "-config-dir=/config",
+                  "-rejoin",
+                  "-retry-join", "{{ .CONSUL }}",
+                  "-retry-max", "10",
+                  "-retry-interval", "10s"],
+      "restarts": "unlimited"
+    }{{ end }}]
+}

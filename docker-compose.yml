@@ -1,0 +1,14 @@
+phpmyadmin:
+  image: travispaul/phpmyadmin-autopilot:4.7.0-2r1
+  mem_limit: 512m
+  env_file: _env
+  environment:
+    - CONSUL_AGENT=1
+  restart: always
+  ports:
+   - 80
+  labels:
+    # Setting the CNS service name
+    - triton.cns.services=phpmyadmin
+    # Soft anti-affinity to avoid other PhpMyAdmin instances
+    - com.docker.swarm.affinities=["container!=~*phpmyadmin*"]
